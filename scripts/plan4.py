@@ -1,9 +1,29 @@
 """Plan 4: Sikkim (Gangtok, Tsomgo, Silk Route: Zuluk, Nathang, Aritar; Ravangla, Pelling, Rinchenpong) + Darjeeling."""
-from common import PlanDoc
+from common import PlanDoc, totals, k
 import sections as X
 
 
+BUDGET = [
+    ("Flight Hyderabad → Bagdogra", 6500, 8500, "Book now; 24 Dec fares climb"),
+    ("Flight Bagdogra → Hyderabad", 6500, 8500, ""),
+    ("Bagdogra → Gangtok", 500, 750, "Shared Sumo from Siliguri vs reserved SUV ÷ 6"),
+    ("Gangtok sightseeing cab", 580, 580, "≈ ₹3,500 ÷ 6"),
+    ("Tsomgo (+ Nathula)", 1000, 1170, "Shared seats Tsomgo only vs govt-fixed ₹7,000 Nathula cab ÷ 6"),
+    ("Silk Route vehicle 2 days incl. permits", 2330, 2330, "≈ ₹14k ÷ 6"),
+    ("Aritar → Ravangla → Pelling (+ Pelling local)", 1200, 1750, "Shared jeeps vs cabs"),
+    ("Pelling → Rinchenpong → Darjeeling", 650, 1100, ""),
+    ("Darjeeling local + transfer to Bagdogra", 800, 1100, ""),
+    ("Stays, 10 nights (Airbnb Gangtok/Darjeeling + homestays)", 7500, 9500, "3BR apartments / 3 rooms ÷ 6"),
+    ("Food", 4500, 5000, "Zuluk homestay includes meals"),
+    ("Toy train joyride", 0, 1000, "Optional"),
+    ("Entries, permits, misc", 500, 700, ""),
+    ("Gear rentals", 400, 500, ""),
+    ("Buffer", 800, 1000, ""),
+]
+
+
 def build(path):
+    lo, hi = totals(BUDGET)
     d = PlanDoc(path,
                 "Plan 4 · Sikkim: Gangtok, Silk Route &amp; West Sikkim",
                 "Gangtok, Tsomgo Lake &amp; Nathula, the Old Silk Route (Zuluk, Thambi, Nathang, Kupup), Aritar, Ravangla, Pelling, "
@@ -19,26 +39,26 @@ def build(path):
         ["Crowd level", "Medium in Gangtok and Darjeeling (Christmas/NYE). Low on the Silk Route, Aritar, Ravangla, Rinchenpong"],
         ["Difficulty", "Easy, but high altitude: Nathula 4,310 m, Nathang ~4,100 m. Slow down and stay hydrated"],
         ["Temperatures", "Gangtok 4–13 °C · Pelling/Darjeeling 2–11 °C · Zuluk/Nathang −12 to 0 °C"],
-        ["Budget (per person, 4 people)", "≈ ₹35.6k shoestring · ≈ ₹47k comfortable · ≈ ₹31k 'lean version' (see box). "
-                                          "<b>Flights make this the costliest plan.</b>"],
+        ["Budget per person (6 people)", f"<b>≈ {k(lo)} shoestring</b> · <b>≈ {k(hi)} recommended</b> · lean version ≈ ₹29–31k (see box). "
+                                         "<b>Flights make this the costliest plan.</b>"],
     ], [0.22, 0.78], header=False, bold_first_col=True)
 
     d.callout("Honest budget note",
               ["Trains from Hyderabad to New Jalpaiguri take 35–42 h and their weekly days don't line up with 24 Dec (e.g. 15645 Charlapalli–Silchar "
                "via NJP runs Wed/Sat; 07572 special runs Fri). With only 10 days, <b>flying both ways is the practical choice</b>, and that alone "
                "is ₹13–17k.",
-               "<b>Lean version to get close to ₹30k:</b> book flights now (aim ≤ ₹6,500 each way), travel as 6 in one Bolero/Sumo, use hostel dorms "
-               "in Gangtok, take a shared seat to Tsomgo (skip Nathula), and do Gangtok 3N → Silk Route 2N → Pelling 3N → Siliguri, dropping "
-               "Ravangla, Rinchenpong and Darjeeling (≈ ₹31k)."], "warn")
+               "<b>Lean version to get close to ₹30k:</b> book flights now (aim ≤ ₹6,500 each way), all 6 in one Innova/Bolero, shared seats to Tsomgo "
+               "(skip Nathula), and do Gangtok 3N → Silk Route 2N → Pelling 3N → Siliguri, dropping Ravangla, Rinchenpong and Darjeeling "
+               "(≈ ₹29–31k). Trains don't help: Hyderabad→NJP takes 35–42 h on weekly days that don't match 24 Dec."], "warn")
 
     d.h1("Getting there and back")
     X.flights(d, (4,), "Flights Hyderabad ⇄ Bagdogra (main way in and out)")
     d.table([
         ["Leg", "Option", "Time", "Approx cost"],
         ["Bagdogra (IXB) → Gangtok", "Reserved cab (small ₹3,000–3,500; SUV ₹3,500–4,500) or auto to Siliguri SNT / Panitanki "
-         "then shared Sumo (₹400–550 per seat). Shared cabs don't wait at the airport", "4–5 h (125 km)", "₹600–1,125 pp"],
+         "then shared Sumo (₹400–550 per seat). Shared cabs don't wait at the airport", "4–5 h (125 km)", "₹500–750 pp (÷ 6)"],
         ["Bagdogra luxury shared seat", "Wizzride-type shared SUV seat from IXB/NJP", "4–5 h", "₹900–1,200 per seat"],
-        ["Darjeeling → Bagdogra", "Reserved cab or shared jeep to Siliguri (₹250–350) + auto/taxi to IXB", "3–3.5 h", "₹450–875 pp"],
+        ["Darjeeling → Bagdogra", "Reserved cab or shared jeep to Siliguri (₹250–350) + auto/taxi to IXB", "3–3.5 h", "₹450–670 pp (÷ 6)"],
     ], [0.22, 0.48, 0.13, 0.17])
     d.h2("Trains via New Jalpaiguri (only if you can leave or return on matching days)")
     d.table([
@@ -50,6 +70,8 @@ def build(path):
     ], [0.27, 0.17, 0.17, 0.14, 0.25])
     d.small("Alternative: fly Hyderabad → Kolkata (often ₹4–5.5k) + Vande Bharat Howrah → NJP (05:55 → 13:25, CC ≈ ₹1,500). Same cost as a "
             "direct Bagdogra flight but loses half a day. Only worth it if Bagdogra fares jump above ₹10k.")
+
+    X.vehicles(d)
 
     d.h1("Permits (Indian citizens)")
     d.table([
@@ -68,54 +90,63 @@ def build(path):
         "Morning IndiGo flight (~2 h 20 m). Taxi/shared cab to Gangtok (4–5 h along the Teesta, Rangpo checkpost, no permit for Gangtok).",
         "Hand over ID + photos to your hotel/agent tonight for the Tsomgo/Nathula permit on Day 3.",
         "Christmas Eve on <b>MG Marg</b> (lit up, no vehicles).",
-    ], stay="Gangtok budget hotel / hostel (₹1,500–2,800 per room; dorm ₹500–700)", cost="₹875 cab share + ₹600 food")
+    ], stay="Airbnb Gangtok (3BR apartment)", cost="₹500–750 transfer + ₹600 food")
     d.day("Day 2 · Fri 25 Dec", "Gangtok sightseeing (full-day cab ₹3,000–3,500)", [
         "<b>Rumtek monastery</b> (Dharma Chakra Centre) → <b>Lingdum (Ranka) monastery</b> (offbeat, quiet) → Banjhakri falls → "
         "Namgyal Institute of Tibetology → Do Drul Chorten → Enchey monastery.",
         "<b>Tashi viewpoint</b> / <b>Ganesh Tok</b> / <b>Hanuman Tok</b> for Kanchenjunga at sunset. Gangtok ropeway (short ride).",
         "Evening: MG Marg Christmas, momos and thukpa at Lal Market side.",
-    ], stay="Gangtok", cost="₹800 cab share + ₹300 entries + ₹700 food")
+    ], stay="Airbnb Gangtok", cost="₹580 cab share + ₹300 entries + ₹700 food")
     d.day("Day 3 · Sat 26 Dec", "Tsomgo Lake · Baba Mandir · Nathula (snow day)", [
         "Leave 07:00 (permit vehicle). <b>Tsomgo (Changu) Lake</b>, 3,753 m, often frozen in December. Rent boots/coats at the lake stalls (₹100–200). Yak ride optional.",
         "<b>Baba Harbhajan Singh Mandir</b>, and <b>Nathula</b> (4,310 m; Indo-China border, Indians only) if permitted. Govt fixed cab fare ₹6,500–7,000 incl. permits. "
         "Tsomgo-only trips ≈ ₹4,500–5,500 per car or ₹1,000–1,500 per shared seat.",
         "Back by 15:00. Rest; altitude headaches are common.",
-    ], stay="Gangtok", cost="₹1,700 cab share + ₹200 rent + ₹700 food")
+    ], stay="Airbnb Gangtok", cost="₹1,000–1,170 cab share + ₹200 rent + ₹700 food")
     d.day("Day 4 · Sun 27 Dec", "Gangtok → Rongli (permit) → Zuluk · Old Silk Route", [
         "Reserved vehicle for 2 days (≈ ₹10,000–14,000 incl. permits; your Zuluk homestay can arrange). Gangtok → Rongli (permit) → Lingtam → "
         "Padamchen → <b>Zuluk (2,850 m)</b>, about 4 h.",
         "Afternoon: <b>Lungthung</b> and the view over the 32 hairpin bends of the Zuluk road.",
-    ], stay="Zuluk homestay with all meals (₹1,000–1,500 pp)", cost="₹1,750 vehicle share + permit")
+    ], stay="Zuluk homestay with all meals (₹1,000–1,500 pp)", cost="₹1,170 vehicle share + permit")
     d.day("Day 5 · Mon 28 Dec", "Thambi sunrise · Nathang valley · Kupup → Aritar", [
         "04:45 drive to <b>Thambi viewpoint</b> for Kanchenjunga sunrise over the zig-zag road.",
         "<b>Nathang valley</b> (~4,100 m, often snowy, −10 °C), <b>Kupup / Elephant lake</b> (frozen), <b>Old Baba Mandir</b>, Tukla valley memorial.",
         "Descend to <b>Aritar</b>: <b>Lampokhari lake</b> (boot-shaped lake, boating), <b>Mankhim</b> viewpoint, Aritar gumpa.",
-    ], stay="Aritar homestay / lake-side lodge (₹1,500–2,500 per room)", cost="₹1,750 vehicle share + ₹700 food")
+    ], stay="Aritar homestay / lake-side lodge (₹1,500–2,500 per room)", cost="₹1,170 vehicle share + ₹700 food")
     d.day("Day 6 · Tue 29 Dec", "Aritar → Temi → Ravangla", [
         "Drive via Rorathang–Singtam (≈ ₹3,500 per car, or shared jeeps with 1–2 changes).",
         "<b>Temi Tea Garden</b> (Sikkim's only tea estate), <b>Buddha Park (Tathagata Tsal)</b> with its 130 ft Buddha, <b>Ralang monastery</b> (offbeat).",
-    ], stay="Ravangla homestay (₹1,200–2,000 per room)", cost="₹875 cab share + ₹100 entry + ₹700 food")
+    ], stay="Ravangla homestay (₹1,200–2,000 per room)", cost="₹670 cab share + ₹100 entry + ₹700 food")
     d.day("Day 7 · Wed 30 Dec", "Ravangla → Pelling (West Sikkim)", [
         "Shared jeep via Legship (₹200–300) or cab (₹2,800–3,500).",
         "<b>Pelling Skywalk &amp; Chenrezig statue</b>, <b>Pemayangtse monastery</b>, <b>Rabdentse ruins</b> (17th-c. capital), sunset over Kanchenjunga.",
-    ], stay="Pelling budget hotel (₹1,500–2,500 per room)", cost="₹700 transfer share + ₹200 entries + ₹700 food")
+    ], stay="Pelling homestay / guesthouse (Airbnb is thin here)", cost="₹580 transfer share + ₹200 entries + ₹700 food")
     d.day("Day 8 · Thu 31 Dec", "Khecheopalri lake · Kanchenjunga falls → Rinchenpong (quiet NYE)", [
         "Half-day cab: <b>Khecheopalri (wishing) lake</b>, <b>Kanchenjunga falls</b>, Rimbi falls.",
         "Short drive to <b>Rinchenpong</b> (offbeat): <b>Resum monastery</b> walk, Poison Lake, Kaluk. Kanchenjunga sunset across the valley. "
         "NYE bonfire at a homestay.",
-    ], stay="Rinchenpong homestay (₹1,200–2,000 per room)", cost="₹1,125 cab share + ₹800 food/NYE")
+    ], stay="Rinchenpong homestay (₹1,200–2,000 per room)", cost="₹1,000 cab share + ₹800 food/NYE")
     d.day("Day 9 · Fri 1 Jan", "Rinchenpong → Jorethang → Darjeeling", [
         "≈ 4 h via Jorethang (shared jeeps via Jorethang ₹400–500 total, or cab ₹4,000–5,000).",
         "Evening: Chowrasta, Mall Road, Glenary's / Keventer's, Darjeeling tea shops.",
-    ], stay="Darjeeling (₹1,500–2,500 per room; NYE-week rates)", cost="₹500–1,125 transfer + ₹700 food")
+    ], stay="Airbnb Darjeeling", cost="₹450–830 transfer + ₹700 food")
     d.day("Day 10 · Sat 2 Jan", "Tiger Hill sunrise · Toy train · Darjeeling", [
         "04:00 <b>Tiger Hill</b> sunrise over Kanchenjunga (shared jeep or cab ₹1,500–2,000) → <b>Ghoom monastery</b> → <b>Batasia Loop</b>.",
         "<b>DHR toy train joyride</b> Darjeeling–Ghum (UNESCO; ₹800–1,500, book on IRCTC; festive specials run till 3 Jan 2027).",
         "Japanese Peace Pagoda, Happy Valley tea estate, HMI + Padmaja Naidu zoo (closed Thursdays).",
-    ], stay="Darjeeling", cost="₹500 cab share + ₹1,000 toy train + ₹700 food")
+    ], stay="Airbnb Darjeeling", cost="₹420 cab share + ₹1,000 toy train + ₹700 food")
     d.day("Day 11 · Sun 3 Jan", "Darjeeling → Bagdogra ✈ Hyderabad", [
         "Leave by 07:00 (3–3.5 h; fog in the plains can slow you down). Take a midday/afternoon flight, not an early-morning one.",
-    ], cost="₹450–875 transfer")
+    ], cost="₹450–670 transfer")
+
+    X.airbnb(d, [
+        ["3 (24–26 Dec)", "Gangtok", "<b>Zimchung 101</b>: 3 BR, 6 guests, 4.88★ (216), Guest favourite · <b>Luxury Loft</b> 3 BR, 9 guests, 4.9★ (165)",
+         "<b>Bob's Bnb</b> 3BR apartment, 6 guests, 4.83★ (54) · <b>Orchid Stays MG Marg</b> 3BR, 4.71★ (24)", (5000, 7500)],
+        ["5 (27–31 Dec)", "Zuluk, Aritar, Ravangla, Pelling, Rinchenpong", "Mostly <b>not on Airbnb</b>: family homestays booked by phone / your driver, "
+         "or on Booking.com / MakeMyTrip", "Zuluk homestays ≈ ₹1,000–1,500 pp with all meals; others 3 rooms × ₹1,500–2,500", (4500, 7500)],
+        ["2 (1–2 Jan)", "Darjeeling", "<b>Shiv Sai Homestay</b> (entire 3BR unit, 4.71★, 59 reviews) · <b>Homestay with Mountain View</b> (3 BR, 4.56★, 52)",
+         "<b>Drokpa's Rest</b> 3BR (4.44★, 9) · 'Super spacious for 8 guests' apartment", (5500, 9000)],
+    ])
 
     d.h1("Offbeat vs main in this plan")
     d.table([
@@ -152,24 +183,8 @@ def build(path):
         ["Gangtok Lal Market / Darjeeling Mall (buy)", "Cheap jackets, gloves, caps", "₹300–1,500"],
     ])
 
-    d.h1("Budget (per person, 4 people)")
-    d.budget([
-        ("Flight Hyderabad → Bagdogra", 6500, 8500, "Book now; 24 Dec fares climb"),
-        ("Flight Bagdogra → Hyderabad", 6500, 8500, ""),
-        ("Bagdogra → Gangtok", 600, 875, "Shared vs reserved"),
-        ("Gangtok sightseeing cab", 800, 800, ""),
-        ("Tsomgo (+ Nathula)", 1200, 1700, "Shared seat Tsomgo only vs govt-fixed Nathula cab"),
-        ("Silk Route vehicle 2 days incl. permits", 3000, 3500, ""),
-        ("Aritar → Ravangla → Pelling (+ Pelling local)", 1600, 2250, "Shared jeeps vs cabs"),
-        ("Pelling → Rinchenpong → Darjeeling", 800, 1575, ""),
-        ("Darjeeling local + transfer to Bagdogra", 850, 1375, ""),
-        ("Stays, 10 nights", 7500, 10000, "Dorms/homestays vs rooms (2 per room)"),
-        ("Food", 4500, 5000, "Zuluk homestay includes meals"),
-        ("Toy train joyride", 0, 1000, "Optional"),
-        ("Entries, permits, misc", 500, 700, ""),
-        ("Gear rentals", 400, 500, ""),
-        ("Buffer", 800, 1000, ""),
-    ], "Over the ₹25–30k limit because of flights. A group of 6 saves ≈ ₹4k pp. The lean version (box above) comes to ≈ ₹31k.")
+    d.h1("Budget per person (6 people sharing)")
+    d.budget(BUDGET, "Over ₹25–30k because of flights. The lean version in the box above gets close to ₹30k.")
 
     d.h1("Bookings to do now")
     d.bullets([
@@ -201,3 +216,4 @@ def build(path):
         "Winter offbeat ideas (Zuluk, Kecheopalri, Lachung boots): TravelTriangle, Thrillophilia, Tripoto traveller notes",
     ])
     d.build()
+    return lo, hi

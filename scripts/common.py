@@ -234,7 +234,7 @@ class PlanDoc:
 
     def budget(self, rows, group_note):
         """rows: (item, shoestring, recommended, note). Totals are computed here."""
-        head = [["Item (per person)", "Shoestring", "Recommended", "Notes"]]
+        head = [["Item (per person, 6 sharing)", "Shoestring", "Recommended", "Notes"]]
         body, lo, hi = [], 0, 0
         for item, a, b, note in rows:
             lo += a
@@ -246,9 +246,9 @@ class PlanDoc:
 
     def sources(self, items):
         self.h1("Sources checked")
-        self.small("Reddit could not be searched from this environment (blocked), so traveller reports came from "
-                   "Team-BHP, Tripoto, travel blogs and local news. Live seat availability and live fares could not "
-                   "be fetched (IRCTC needs login and captcha). Use the checklists above to verify.")
+        self.small("Reddit and direct page fetches (Airbnb, IRCTC, erail, ConfirmTkt) were blocked from this environment, so everything "
+                   "here comes from web-search results: Airbnb listing snippets, rail timetable aggregators, Team-BHP, Tripoto, travel blogs and local news. "
+                   "Live seat availability and live prices could not be checked; use the checklists above to verify.")
         self.space(3)
         for it in items:
             self._add(Paragraph(it, self.s["src"], bulletText="–"))
@@ -260,6 +260,16 @@ class PlanDoc:
             author="Trip planning notes", subject=self.subtitle,
         )
         doc.build(self.story, onFirstPage=self._on_page, onLaterPages=self._on_page)
+
+
+def totals(rows):
+    """Sum shoestring / recommended columns of budget rows so summaries match the table."""
+    return sum(r[1] for r in rows), sum(r[2] for r in rows)
+
+
+def k(n):
+    """₹ in thousands with one decimal, e.g. 24550 -> '₹24.6k'."""
+    return f"₹{n / 1000:.1f}k"
 
 
 def _inr(n):

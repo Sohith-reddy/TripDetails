@@ -1,9 +1,30 @@
 """Plan 5: Uttarakhand: Rishikesh, Devprayag, Sari–Deoria Tal, Chopta–Tungnath–Chandrashila, Joshimath–Auli, Haridwar."""
-from common import PlanDoc
+from common import PlanDoc, totals, k
 import sections as X
 
 
+BUDGET = [
+    ("Train Hyderabad → Delhi (12723)", 800, 2100, "SL vs 3A"),
+    ("Delhi → Rishikesh bus", 450, 800, "UTC ordinary vs Volvo"),
+    ("Rishikesh: 3 scooties + fuel", 300, 350, ""),
+    ("Rafting (optional)", 0, 700, ""),
+    ("One Innova, 27 Dec – 1 Jan (6 days + driver nights + tolls)", 5300, 5500, "≈ ₹32–33k ÷ 6"),
+    ("Guide for Tungnath–Chandrashila", 300, 300, "≈ ₹1,800 ÷ 6"),
+    ("Microspikes, gaiters", 300, 300, ""),
+    ("Auli snow activities", 300, 800, ""),
+    ("Haridwar → Delhi overnight", 250, 250, "SL train (3A ≈ ₹700)"),
+    ("Delhi half-day on 2 Jan", 300, 400, ""),
+    ("Train Delhi → Hyderabad (12724)", 800, 2100, "SL vs 3A"),
+    ("Stays: 2N Rishikesh Airbnb, 1N Sari, 2N Duggalbitta camp, 2N Joshimath Airbnb", 5100, 8000, "÷ 6 (camps priced per person with meals)"),
+    ("Food", 4800, 5300, ""),
+    ("Metro, autos, misc", 300, 400, ""),
+    ("Gear rentals", 600, 800, ""),
+    ("Buffer", 800, 1000, ""),
+]
+
+
 def build(path):
+    lo, hi = totals(BUDGET)
     d = PlanDoc(path,
                 "Plan 5 · Uttarakhand: Rishikesh to Chandrashila &amp; Auli",
                 "Ganga aarti and cafés in Rishikesh, Devprayag confluence, Deoria Tal, a snow trek to Tungnath &amp; Chandrashila (4,000 m), "
@@ -18,7 +39,8 @@ def build(path):
         ["Crowd level", "Medium in Rishikesh. Low–medium at Chopta (weekend trekkers). Low at Auli (ropeway shut) and Deoria Tal"],
         ["Difficulty", "Moderate. Chandrashila in snow is a 6–8 h day (about 10 km round trip from Chopta) and needs microspikes and a guide"],
         ["Temperatures", "Rishikesh 7–20 °C · Sari 0–12 °C · Chopta −8 to 3 °C · Auli/Joshimath −6 to 8 °C"],
-        ["Budget (per person, 4 people)", "≈ ₹20.1k shoestring (buses + shared jeeps) · ≈ ₹30.3k recommended (one cab for 6 days)"],
+        ["Budget per person (6 people)", f"<b>≈ {k(lo)} shoestring</b> (SL, ordinary buses) · <b>≈ {k(hi)} recommended</b> (3A, Volvo, better stays). "
+                                         "One Innova for all 6 is cheaper per head than buses + shared jeeps once you add the waiting"],
     ], [0.22, 0.78], header=False, bold_first_col=True)
     d.callout("Things that changed recently",
               ["<b>Joshimath–Auli ropeway is shut</b> (since Jan 2023 land subsidence). A new line is only at project-report stage. Auli is reached by "
@@ -37,13 +59,15 @@ def build(path):
          "for a 07:40 arrival). Check IRCTC for 25 Dec afternoon chair cars", "4.5–5 h", "₹600–1,100"],
         ["Rishikesh → Ukhimath (budget)", "GMOU / Uttarakhand Roadways bus from Rishikesh bus stand ~05:00–07:00, then shared jeep to Sari", "8–9 h", "≈ ₹400–500"],
         ["Hill loop by cab (recommended)", "Dzire/Ertiga/Bolero with driver 27 Dec – 1 Jan: Rishikesh → Sari → Chopta → Joshimath/Auli → Haridwar", "6 days",
-         "≈ ₹3,500–4,000/day + ₹300 driver night + tolls ≈ ₹24–25k per car"],
-        ["Haridwar → Delhi (1 Jan night)", "Overnight train (e.g. Mussoorie Exp-type departures ~22:00–23:30; verify) or UTC Volvo", "6–7 h", "₹450–800"],
+         "Innova Crysta ≈ ₹4,500–5,000/day + ₹400 driver night + tolls ≈ ₹32–33k (÷ 6 ≈ ₹5,300)"],
+        ["Haridwar → Delhi (1 Jan night)", "Overnight train (e.g. Mussoorie Exp-type departures ~22:00–23:30; verify) or UTC Volvo", "6–7 h", "SL ≈ ₹250 · 3A ≈ ₹700 · Volvo ≈ ₹800"],
     ], [0.22, 0.46, 0.12, 0.2])
     X.flights(d, (1, 5))
     d.callout("Faster by air",
               "Fly Hyderabad → Dehradun (IndiGo direct, about 10 flights a week; ₹5–9k) on 24 Dec and taxi to Rishikesh (~1 h). You gain a full day: "
               "add Kunjapuri sunrise + Neer Garh falls, or a night in Khirsu/Lansdowne (offbeat) on the way back.")
+
+    X.vehicles(d)
 
     d.h1("Day-by-day itinerary")
     d.day("Day 1 · Thu 24 Dec", "Hyderabad → on the train", [
@@ -52,42 +76,51 @@ def build(path):
     d.day("Day 2 · Fri 25 Dec", "Delhi → Rishikesh · Ganga aarti", [
         "Metro to Kashmere Gate → Volvo to Rishikesh (~09:00 → ~16:00).",
         "Evening <b>Triveni Ghat</b> or <b>Parmarth Niketan</b> Ganga aarti (around sunset, ~17:30 in winter).",
-    ], stay="Tapovan / Laxman Jhula-side hostel (dorm ₹400–800) or guesthouse (₹1,200–2,000 per room)", cost="₹700 bus + ₹600 food")
+    ], stay="Airbnb Tapovan (2–3 BR apartment)", cost="₹450–800 bus + ₹600 food")
     d.day("Day 3 · Sat 26 Dec", "Rishikesh by scooty", [
         "Rent a scooty (₹500–700 + ₹1,500 deposit). <b>Beatles Ashram (Chaurasi Kutia)</b>, Ram Jhula, Janki Setu, Parmarth & Swarg Ashram ghats.",
         "<b>Neer Garh waterfall</b> (short trek, offbeat-ish). Optional river rafting from Shivpuri (16 km, ₹600–1,000). The water is cold but rafts do run.",
         "Cafés on the Tapovan side, sunset at Beatles Ashram.",
-    ], stay="Rishikesh", cost="₹350 scooty share + ₹200 fuel + ₹700 rafting (optional) + ₹600 food")
+    ], stay="Rishikesh", cost="₹300 scooty share (3 scooties) + ₹100 fuel + ₹700 rafting (optional) + ₹600 food")
     d.day("Day 4 · Sun 27 Dec", "Rishikesh → Devprayag → Rudraprayag → Sari", [
         "Leave 06:30. <b>Devprayag</b>: Alaknanda meets Bhagirathi and the Ganga begins. Short walk down to the sangam.",
         "Optional quick stops: Dhari Devi temple (Srinagar Garhwal), Rudraprayag confluence. Then Ukhimath → <b>Sari village</b> (~2,000 m), 7–8 h total.",
-    ], stay="Sari homestay (₹1,000–1,800 per room, meals ₹250–350)", cost="₹1,035 cab share + ₹600 food")
+    ], stay="Sari homestay, 3 rooms (₹1,000–1,500 per room, meals ₹250–350; not on Airbnb)", cost="₹880 Innova share + ₹600 food")
     d.day("Day 5 · Mon 28 Dec", "Deoria Tal → Chopta / Duggalbitta", [
         "Early trek to <b>Deoria Tal</b> (2.5–3 km, 1.5 h up): mirror view of Chaukhamba. Ice on the edges in late Dec. Small entry/eco fee.",
         "Descend, drive to <b>Duggalbitta / Chopta</b> (25 km). Rent microspikes + gaiters for tomorrow (₹150–250/day).",
         "Book your Tungnath guide tonight (₹1,500–2,000 per group).",
-    ], stay="Duggalbitta camp / lodge with meals (₹1,000–1,500 pp)", cost="₹1,035 cab share + ₹250 rentals")
+    ], stay="Duggalbitta camp / lodge with meals (₹1,000–1,500 pp)", cost="₹880 Innova share + ₹250 rentals")
     d.day("Day 6 · Tue 29 Dec", "Tungnath (3,680 m) + Chandrashila summit (4,000 m) in snow", [
         "Start 06:30 from Chopta. 3.5 km to <b>Tungnath</b> (world's highest Shiva temple; doors shut in winter) + 1.5 km steep to <b>Chandrashila</b>: "
         "360° view of Nanda Devi, Trishul, Chaukhamba, Kedar peaks.",
         "Turn-around time 12:30 whatever happens. Back by 15:00–16:00. Hot Maggi + chai at Chopta.",
-    ], stay="Duggalbitta (or drop to Ukhimath)", cost="₹450 guide share + ₹1,200 camp + ₹300 food")
+    ], stay="Duggalbitta (or drop to Ukhimath)", cost="₹300 guide share + ₹1,200 camp + ₹300 food")
     d.day("Day 7 · Wed 30 Dec", "Ukhimath → the five prayags → Joshimath", [
         "<b>Omkareshwar temple, Ukhimath</b>, the winter seat of Kedarnath (puja happens here in winter).",
         "Drive via Rudraprayag → Karnaprayag → Nandprayag → Chamoli → <b>Joshimath</b> (6–7 h). If the Chopta–Mandal–Gopeshwar road is open, it's shorter.",
         "Evening: Narsingh temple (winter seat of Badrinath).",
-    ], stay="Joshimath budget hotel (₹1,500–2,500 per room)", cost="₹1,035 cab share + ₹700 food")
+    ], stay="Airbnb Joshimath / near Auli", cost="₹880 Innova share + ₹700 food")
     d.day("Day 8 · Thu 31 Dec", "Auli snow day + Gorson Bugyal · quiet NYE", [
         "Drive up to <b>Auli</b> (16 km). Snow slopes, the GMVN ski area (beginner lessons + gear ≈ ₹1,500–2,500/day in season), Auli artificial lake.",
         "<b>Gorson Bugyal</b> (offbeat): 3 km snow walk through oak and rhododendron to a meadow facing Nanda Devi.",
         "NYE in Joshimath/Auli is low-key: bonfire and dinner at the hotel.",
-    ], stay="Joshimath (or Auli GMVN/resorts, ₹3,000+ per room)", cost="₹1,035 cab share + ₹300–800 snow activities + ₹800 food")
+    ], stay="Airbnb Joshimath", cost="₹880 Innova share + ₹300–800 snow activities + ₹800 food")
     d.day("Day 9 · Fri 1 Jan", "Joshimath → Haridwar (Har Ki Pauri) → night to Delhi", [
         "Leave by 07:00 (~255 km, 8–9 h). If you reach by 17:30, catch the <b>Har Ki Pauri</b> evening aarti in Haridwar.",
         "Overnight train / Volvo Haridwar → Delhi.",
-    ], stay="Train / bus", cost="₹1,035 cab share + ₹700 train/bus + ₹600 food")
-    d.day("Day 10 · Sat 2 Jan", "Delhi → Hyderabad", ["<b>16:00 12724 Telangana Express</b> (or 22692 Rajdhani late evening)."], stay="Train", cost="₹300 room share + ₹600 food")
+    ], stay="Train / bus", cost="₹880 Innova share + ₹250–700 train/bus + ₹600 food")
+    d.day("Day 10 · Sat 2 Jan", "Delhi → Hyderabad", ["<b>16:00 12724 Telangana Express</b> (or 22692 Rajdhani late evening)."], stay="Train", cost="₹300 Delhi + ₹600 food")
     d.day("Day 11 · Sun 3 Jan", "Home", ["Hyderabad ~17:10."])
+
+    X.airbnb(d, [
+        ["2 (25–26 Dec)", "Rishikesh (Tapovan)", "<b>White House Rishikesh Tapovan</b>: 4.73★ (81), sleeps 6 · <b>Apartment in Tapovan</b> 2 BR, 6 guests, 4.79★ (29)",
+         "<b>Spacious 3 BHK Ganga View Apartment, Tapovan</b> (sleeps 7–8 with extra beds) · or 2 private rooms in hostels", (4000, 7000)],
+        ["1 (27 Dec)", "Sari village", "Not on Airbnb: family homestays (book by phone / via your driver)", "3 rooms × ₹1,000–1,500, dinner ₹250–350", (3000, 4500)],
+        ["2 (28–29 Dec)", "Duggalbitta / Chopta", "Winter camps &amp; lodges at Duggalbitta (the only ones open)", "Priced per person ₹1,000–1,500 with meals", (6000, 9000)],
+        ["2 (30–31 Dec)", "Joshimath / Auli", "<b>Vaadi, entire villa near Auli</b> (2 BR, 5 guests, 5.0★) + its <b>Forest View Cabin</b> (5.0★, 14) for 6",
+         "<b>Home stay in Joshimath</b> (4.85★, 20 reviews) · GMVN Auli dorms", (3500, 6000)],
+    ])
 
     d.h1("Places: main vs offbeat")
     d.table([
@@ -130,25 +163,8 @@ def build(path):
         ["Trek operators (Indiahikes, Trek The Himalayas rentals)", "Padded jacket, shoes", "₹55–150/day"],
     ])
 
-    d.h1("Budget (per person, 4 people)")
-    d.budget([
-        ("Train Hyderabad → Delhi", 800, 2100, "SL vs 3A"),
-        ("Train Delhi → Hyderabad", 800, 2100, ""),
-        ("Delhi → Rishikesh bus", 500, 800, "Ordinary vs Volvo"),
-        ("Haridwar → Delhi overnight", 450, 700, ""),
-        ("Hill loop transport 27 Dec – 1 Jan", 3500, 6200, "Buses + shared jeeps vs one cab ≈ ₹24.8k ÷ 4"),
-        ("Rishikesh scooty + fuel", 300, 350, ""),
-        ("Rafting (optional)", 0, 700, ""),
-        ("Guide for Tungnath–Chandrashila", 450, 450, "≈ ₹1,800 ÷ 4"),
-        ("Microspikes, gaiters", 300, 300, ""),
-        ("Auli snow activities", 300, 800, ""),
-        ("Stays: 2N Rishikesh, 1N Sari, 2N Duggalbitta, 2N Joshimath", 5600, 7700, "Dorms/camps vs rooms (camps include meals)"),
-        ("Food", 5000, 5500, ""),
-        ("Metro, autos, misc", 400, 500, ""),
-        ("Delhi day room (2 Jan)", 300, 300, ""),
-        ("Gear rentals (jackets etc.)", 600, 800, ""),
-        ("Buffer", 800, 1000, ""),
-    ], "Fits the ₹25–30k range comfortably. The cheapest of the five if you use buses.")
+    d.h1("Budget per person (6 people sharing)")
+    d.budget(BUDGET, "Fits ₹25–30k comfortably. The cheapest plan once 6 people share one Innova.")
 
     d.h1("Bookings to do now")
     d.bullets([
@@ -175,3 +191,4 @@ def build(path):
         "HYD–DED flights: flightconnections, Skyscanner, HappyFares, tourmyindia (IndiGo direct)",
     ])
     d.build()
+    return lo, hi

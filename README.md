@@ -1,40 +1,55 @@
-# North India Winter Trip: 24 Dec 2026 – 3 Jan 2027
+# North India Winter Trip: 24 Dec 2026 – 3 Jan 2027 (6 people)
 
-Leaving Hyderabad 24 Dec (morning is fine), back home by 3 Jan. Budget is ₹25–30k per person.
+Leave Hyderabad 24 Dec, home by 3 Jan. Budget ₹25–30k per person. Stays on Airbnb. Shimla is reached by the Kalka toy train.
 
 ## The PDFs (in `PDFs/`)
 
-| File | What's inside | Per person (4 travellers): shoestring / recommended |
+| File | Plan | Per person, 6 sharing (shoestring / recommended) |
 |---|---|---|
-| `00_Overview_Trains_Flights_Gear_Budget.pdf` | Comparison of all 5 plans, every Hyderabad ⇄ Delhi train option (early morning first), how to check availability at every halt, return trains, flights, full winter-gear buy/rent list, booking deadlines | n/a |
-| `01_Plan1_Standard_Shimla_Manali.pdf` | Standard plan: Shimla, Kufri, Narkanda–Hatu, Manali, Solang, Atal Tunnel–Sissu, Naggar, Jana, Sethan, Kasol–Manikaran | ₹24.6k / ₹30.8k |
-| `02_Plan2_Offbeat_Shimla_Manali_Jibhi_Tirthan.pdf` | Offbeat Shimla–Manali: Mashobra, Shali Tibba, Narkanda, Thanedar, Jalori/Serolsar, Jibhi, Tirthan, Sethan NYE | ₹25.4k / ₹31.2k |
-| `03_Plan3_Kashmir_Winter_Gulmarg_Sonamarg_Pahalgam.pdf` | My pick for "North": Kashmir by train (new Jammu–Srinagar Vande Bharat), Gulmarg, Drung, Doodhpathri, Sonamarg, Pahalgam–Aru, Martand | ₹22.7k / ₹30.4k |
-| `04_Plan4_Sikkim_Gangtok_SilkRoute_Pelling_Darjeeling.pdf` | Sikkim: Gangtok, Tsomgo–Nathula, Silk Route (Zuluk, Nathang), Aritar, Ravangla, Pelling, Rinchenpong, Darjeeling | ₹35.6k / ₹47.3k (lean version ≈ ₹31k) |
-| `05_Plan5_Uttarakhand_Rishikesh_Chopta_Tungnath_Auli.pdf` | Uttarakhand: Rishikesh, Devprayag, Deoria Tal, Chopta–Tungnath–Chandrashila snow trek, Auli–Gorson, Haridwar (+ Kedarkantha / Kumaon variants) | ₹20.1k / ₹30.3k |
+| `00_Overview_All_Plans_Trains_Airbnb_Gear.pdf` | All plans compared; trains from Hyderabad, Kazipet, Warangal and Vijayawada; Delhi → Kalka → toy train connections; return trains; flights; vehicles for 6; Airbnb approach; international options checked; winter gear | n/a |
+| `01_Plan1_Standard_Shimla_ToyTrain_Manali.pdf` | Toy train to Shimla, Kufri, Narkanda–Hatu, Manali, Solang, Atal Tunnel–Sissu, Naggar, Sethan, Kasol | ₹23.7k / ₹32.3k |
+| `02_Plan2_Offbeat_Shimla_Narkanda_Jibhi_Sethan.pdf` | Toy train, Mashobra, Shali Tibba, Narkanda, Thanedar, Jalori, Jibhi, Tirthan, Sethan NYE | ₹22.5k / ₹29.9k |
+| `03_Plan3_Kashmir_Winter_by_Train.pdf` | Jammu–Srinagar Vande Bharat, Gulmarg, Drung, Doodhpathri, Sonamarg, Pahalgam–Aru | ₹22.3k / ₹29.6k |
+| `04_Plan4_Sikkim_Gangtok_SilkRoute_Darjeeling.pdf` | Gangtok, Tsomgo–Nathula, Silk Route, Aritar, Ravangla, Pelling, Rinchenpong, Darjeeling (flights) | ₹33.8k / ₹43.5k (lean ≈ ₹29–31k) |
+| `05_Plan5_Uttarakhand_Rishikesh_Chopta_Auli.pdf` | Rishikesh, Deoria Tal, Tungnath–Chandrashila, Auli–Gorson, Haridwar | ₹20.7k / ₹29.1k |
+| `06_Plan6_Amritsar_Dalhousie_Dharamshala_Bir.pdf` | **New:** Golden Temple, Wagah, Dalhousie–Khajjiar, McLeodganj–Triund, Palampur, Bir, Kangra toy train | ₹19.2k / ₹29.0k |
+| `07_Plan7_Kinnaur_Winter_by_ToyTrain.pdf` | **New:** toy train both ways, Narkanda, Sarahan, Sangla, Kalpa, Nako, Shimla NYE | ₹21.4k / ₹28.1k |
+| `08_Plan8_Nepal_Overland_International.pdf` | **New, international:** weekly Hyderabad–Raxaul train (Thu 24 Dec), Kathmandu, Bandipur, Pokhara street festival, back via Patna | ₹18.8k / ₹28.2k |
 
-Each plan PDF has: how to get there and back, local transport with prices, a day-by-day itinerary (stay + spend per day), main vs offbeat places,
-bike/scooty rental rates and rules, winter-gear rental points on that route, an itemised budget, what to book now, a Plan B, and sources.
+Budget totals are computed from each plan's itemised table by `scripts/build_all.py`, so the README, overview and plan pages match.
+
+Each plan has:
+- how to get there and back (including Kazipet/Warangal/Vijayawada boarding where it helps)
+- the cheapest connecting trains, with buffers based on the train timings
+- a day-by-day itinerary with spend per person
+- Airbnb best-rated and budget picks for every stop
+- vehicles for 6, bike/scooty rentals
+- winter gear rental points
+- an itemised budget, what to book now, a Plan B, and sources
 
 ## Book first (as of 4 Nov 2026)
 
-1. **Return train for 2 Jan.** Booking opened 3 Nov (60-day rule). Options: 12724 Telangana Exp (New Delhi 16:00 → Hyderabad ~17:10 next day) or 22692 Rajdhani.
-2. **Onward train for 24 Dec** (Thursday): 12723 Telangana Exp 06:00 from Hyderabad Deccan, 22691 Rajdhani 07:10 from Secunderabad,
-   or 12285 Duronto 12:50 from Secunderabad (Sun/Thu). If they show a waitlist, follow the halt-by-halt steps in the Overview PDF, or book a flight.
-3. **NYE-night stays** with free cancellation.
+1. **Return train for 2 Jan:** 12724 Telangana Exp (New Delhi 16:00 → Hyderabad ~17:10, 3 Jan). The 60-day window opened 3 Nov.
+   For Nepal, book **17005 Hyderabad–Raxaul for Thu 24 Dec** (weekly) and **12792 Danapur–Secunderabad for 2 Jan**.
+2. **Onward train for 24 Dec:**
+   - Default: 12723 Telangana Exp, Hyderabad Deccan 06:00.
+   - Fast option: 12621 Tamil Nadu Exp from Kazipet 06:55 / Warangal 06:50 / Vijayawada ~04:00.
+   - Then the 25 Dec connection (12311 Kalka Mail / 14033 Jammu Mail / Amritsar train) and the 26 Dec toy train.
+3. **NYE Airbnbs (30 Dec–1 Jan)** with flexible cancellation.
+
+General quota allows 6 passengers per PNR; Tatkal allows only 4, so Tatkal needs 2 bookings.
 
 ## Caveats
 
-- Prices are researched estimates from Nov 2026, not live quotes. Seat availability could not be checked live (IRCTC needs login and captcha).
-  Reddit was not reachable from the research environment, so traveller reports come from Team-BHP, Tripoto, travel blogs and local news.
-- Train running days and timings sometimes conflict between sites. Each PDF marks these "verify". Confirm on IRCTC / NTES before paying.
+- Reddit, IRCTC, ConfirmTkt, erail and Airbnb pages could not be opened from the research environment. Train timings, Airbnb ratings and prices
+  come from search results across several sites. Seat availability and live Airbnb prices were not checked; the "Dec price for 6" column is an estimate.
+- Some train running days and timings conflict between sources; they are marked "verify". Confirm on IRCTC / NTES before paying.
 
 ## Rebuilding the PDFs
 
 ```bash
 pip install reportlab   # uses DejaVu fonts from /usr/share/fonts/truetype/dejavu
-python3 scripts/build_all.py            # all PDFs
-python3 scripts/build_all.py plan3      # just one
+python3 scripts/build_all.py
 ```
 
-Shared train, flight and gear tables are in `scripts/shared.py`; each plan's content is in `scripts/planN.py`.
+Shared trains, toy train, vehicle, Airbnb and gear tables are in `scripts/shared.py`; each plan is in `scripts/planN.py`.

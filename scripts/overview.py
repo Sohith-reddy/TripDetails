@@ -1,112 +1,137 @@
-"""00 Overview: comparison of the 5 plans + all trains/flights + gear + booking strategy."""
-from common import PlanDoc
+"""00 Overview: all plans compared + trains (incl. Kazipet/Warangal/Vijayawada), toy train, flights, vehicles for 6, Airbnb, gear."""
+from common import PlanDoc, k
 import sections as X
 import shared as S
 
+PLANS = [
+    ("1 · Standard Shimla–Manali", "Toy train to Shimla, Kufri, Narkanda–Hatu, Manali, Solang, Atal Tunnel–Sissu, Naggar, Sethan, Kasol",
+     "Good", "★★☆☆☆", "High", "Train + toy train + HRTC"),
+    ("2 · Offbeat Shimla–Manali", "Toy train, Mashobra, Shali Tibba, Narkanda, Thanedar, Jalori, Jibhi, Tirthan, Sethan NYE",
+     "Good", "★★★★★", "Low", "Train + toy train + 1 Innova"),
+    ("3 · Kashmir", "Vande Bharat to Srinagar, Gulmarg, Drung, Doodhpathri, Sonamarg, Pahalgam–Aru, Martand", "<b>Best</b>", "★★★☆☆", "Medium",
+     "Train all the way"),
+    ("4 · Sikkim + Darjeeling", "Gangtok, Tsomgo–Nathula, Silk Route (Zuluk, Nathang), Aritar, Ravangla, Pelling, Rinchenpong, Darjeeling",
+     "At passes only", "★★★★☆", "Low–medium", "Flights to Bagdogra"),
+    ("5 · Uttarakhand", "Rishikesh, Devprayag, Deoria Tal, Chopta–Tungnath–Chandrashila, Auli–Gorson, Haridwar", "Good (trek/Auli)", "★★★☆☆",
+     "Low–medium", "Train + bus + 1 Innova"),
+    ("6 · Amritsar + Kangra (new)", "Golden Temple, Wagah, Dalhousie–Khajjiar–Dainkund, McLeodganj–Triund, Palampur, Bir, Kangra toy train",
+     "Medium", "★★★☆☆", "Medium", "Train + Innova legs"),
+    ("7 · Kinnaur winter (new)", "Toy train both ways, Narkanda, Sarahan, Sangla, Kalpa, Nako, Shimla NYE", "Very good", "★★★★★", "Very low",
+     "Train + toy train + 1 Innova"),
+    ("8 · Nepal overland (international)", "Kathmandu (3 Durbar Squares, Pashupati, Boudha), Bandipur, Pokhara street festival",
+     "No snow (peak views)", "★★★☆☆", "Medium", "Weekly Raxaul train + buses"),
+]
 
-def build(path):
+
+def build(path, plan_totals):
     d = PlanDoc(path,
-                "North India Winter Trip: Overview",
-                "5 plans compared · Hyderabad ⇄ Delhi trains (early morning + every-halt method) · flights · winter gear buy vs rent · "
-                "booking deadlines. Leave 24 Dec 2026, home by 3 Jan 2027 · Budget ₹25–30k per person",
-                "#334155", "OVERVIEW · TRAINS · FLIGHTS · GEAR")
+                "North India Winter Trip: Overview (6 people)",
+                "8 plans compared (7 North India + Nepal) · trains from Hyderabad, Kazipet, Warangal and Vijayawada · Delhi → Kalka → toy train "
+                "connections · Airbnb approach · vehicles for 6 · international options checked · winter gear. 24 Dec 2026 – 3 Jan 2027",
+                "#334155", "OVERVIEW · 6 PEOPLE")
 
-    d.h1("The 5 plans side by side")
-    d.table([
-        ["Plan", "Where", "Snow for these dates", "Offbeat level", "Crowds", "Main transport", "Per person (4 ppl): shoestring / recommended"],
-        ["1 · Standard", "Shimla, Kufri, Narkanda–Hatu, Manali, Solang, Atal Tunnel–Sissu, Naggar, Sethan, Kasol", "Good (Solang/Sissu/Hatu)",
-         "★★☆☆☆", "High", "Train + HRTC Volvo", "₹24.6k / ₹30.8k"],
-        ["2 · Offbeat Himachal", "Mashobra, Shali Tibba, Narkanda, Thanedar, Jalori, Jibhi, Tirthan, Naggar, Sethan", "Good (Hatu/Jalori/Sethan)",
-         "★★★★★", "Low", "Train + Volvo + taxis", "₹25.4k / ₹31.2k"],
-        ["3 · Kashmir (my pick)", "Srinagar, Gulmarg, Drung, Doodhpathri, Sonamarg, Pahalgam–Aru, Martand", "<b>Best</b> (Chillai Kalan)",
-         "★★★☆☆", "Medium", "Train + Vande Bharat to Srinagar", "₹22.7k / ₹30.4k"],
-        ["4 · Sikkim", "Gangtok, Tsomgo–Nathula, Silk Route (Zuluk, Nathang), Aritar, Ravangla, Pelling, Rinchenpong, Darjeeling",
-         "At passes/lakes only", "★★★★☆", "Low–medium", "Flights to Bagdogra", "₹35.6k / ₹47.3k (lean ≈ ₹31k)"],
-        ["5 · Uttarakhand", "Rishikesh, Devprayag, Sari–Deoria Tal, Chopta–Tungnath–Chandrashila, Auli–Gorson, Haridwar", "Good on the trek / Auli",
-         "★★★☆☆", "Low–medium", "Train + bus + cab", "₹20.1k / ₹30.3k"],
-    ], [0.12, 0.27, 0.13, 0.09, 0.09, 0.13, 0.17])
+    d.h1("All plans side by side (per person, 6 sharing)")
+    rows = [["Plan", "Where", "Snow", "Offbeat", "Crowds", "Transport", "Shoestring / recommended"]]
+    for i, (name, where, snow, off, crowd, mode) in enumerate(PLANS, start=1):
+        lo, hi = plan_totals[i]
+        rows.append([f"<b>{name}</b>", where, snow, off, crowd, mode, f"<b>{k(lo)}</b> / {k(hi)}"])
+    d.table(rows, [0.14, 0.28, 0.1, 0.1, 0.1, 0.13, 0.15])
     d.callout("Recommendation",
-              ["<b>Want guaranteed snow on budget → Plan 3 (Kashmir).</b> The new Jammu–Srinagar Vande Bharat makes it a train trip, and Gulmarg/Sonamarg/Aru "
-               "are snow-white by late December.",
-               "<b>Want quiet villages and no NYE crowd → Plan 2.</b> <b>Want a proper trek → Plan 5</b> (cheapest too). "
-               "<b>First trip to the hills, want the classics → Plan 1.</b> "
-               "<b>Plan 4 is the most beautiful for mountain views but only fits ₹30k in its lean form</b> because of flights."], "good")
-    d.small("Budgets assume 4 travellers sharing rooms (2 per room) and cabs, 3A sleeper for 'recommended', SL + dorms/homestays for 'shoestring'. "
-            "Personal shopping and the one-time winter clothing purchase (≈ ₹4–6.5k if you own nothing) are not included.")
+              ["<b>Guaranteed snow → Plan 3 (Kashmir).</b> <b>Offbeat + toy train → Plan 2</b> or <b>Plan 7 (Kinnaur)</b>. <b>Cheapest → Plan 5.</b> "
+               "<b>Classic first trip → Plan 1.</b> <b>Something different → Plan 6</b> (Golden Temple + Himachal). <b>Abroad → Plan 8 (Nepal)</b>, the "
+               "only international trip that fits the budget.",
+               "Plan 4 (Sikkim) is beautiful but needs flights, so it goes over ₹30k unless you take the lean version."], "good")
+    d.small("Budgets: 6 travellers, 3-bedroom Airbnbs (or 3 homestay rooms), one Innova or taxi-union SUV per circuit. 'Shoestring' = SL trains, ordinary "
+            "buses, cheaper Airbnbs. 'Recommended' = 3A, Volvo, better-rated stays. The one-time winter clothing purchase (≈ ₹4–6.5k if you own "
+            "nothing) is not included.")
+
+    d.h1("What changed in this version")
+    d.bullets([
+        "<b>Group of 6:</b> every cab, Airbnb and Innova cost is split 6 ways. Tatkal tickets need 2 PNRs (max 4 per Tatkal PNR).",
+        "<b>Airbnb instead of hotels:</b> each plan lists a best-rated and a budget Airbnb for every stop, with rating, reviews, capacity and an "
+        "estimated December price for 6. Where Airbnb has nothing (Zuluk, Sari, Sangla, Bandipur…), homestays are named instead.",
+        "<b>Shimla by toy train from Kalka</b> (Plans 1, 2, 7). Default: Telangana Exp → Delhi sightseeing day → 21:10 Kalka Mail → 05:20–06:20 toy train "
+        "(≈ ₹265 pp in trains). Fast option: Tamil Nadu Exp from Kazipet → 07:40 Kalka Shatabdi → 12:10 Himalayan Queen (Shimla 25 Dec evening).",
+        "<b>Boarding at Kazipet, Warangal and Vijayawada</b> is now in the train tables with times, plus how to get there with 6 people.",
+        "<b>Cheapest intermediate trains:</b> SL on overnight Delhi → Kalka / Jammu / Amritsar / Haridwar runs, 2S on the toy train.",
+        "<b>New plans:</b> 6 (Amritsar + Kangra valley), 7 (Kinnaur by toy train), 8 (Nepal overland). International and other options that "
+        "don't fit are explained at the end.",
+    ])
 
     d.h1("Calendar &amp; booking deadlines")
     d.table(S.CALENDAR, [0.14, 0.12, 0.74])
-    d.table(S.BOOKING_WINDOW, [0.28, 0.4, 0.32])
-    d.callout("Do these 3 things today (4 Nov)",
-              ["1. Book the <b>return</b> train (2 Jan): its 60-day window opened yesterday and Telangana Exp / Rajdhani 3A fill within days in the "
-               "New Year week.",
-               "2. Check the <b>onward</b> train (24 Dec) on all the options below using the every-halt method. If everything is WL beyond ~WL 20 (3A), "
-               "book the flight instead today, because flight fares only go up from here.",
-               "3. Book NYE-night stays (31 Dec) with free cancellation. They are the first to sell out in every plan."], "warn")
+    d.table(S.BOOKING_WINDOW, [0.32, 0.38, 0.3])
+    d.small(S.PNR_NOTE)
+    d.space(3)
+    d.callout("Do these today (4 Nov)",
+              ["1. <b>Return train for 2 Jan</b> (window opened 3 Nov). For Nepal: <b>17005 for 24 Dec</b> (weekly) + 12792 for 2 Jan.",
+               "2. <b>Onward train for 24 Dec</b> using the station-by-station check below, then the 25 Dec connection (Kalka Mail / Jammu Mail / "
+               "Amritsar train) and the toy train for 26 Dec.",
+               "3. <b>NYE-night Airbnbs (30 Dec–1 Jan)</b> with flexible cancellation. Hosts set minimum stays and these sell out first."], "warn")
 
-    d.h1("Hyderabad → Delhi trains (all options, early morning first)")
+    d.h1("Hyderabad → Delhi on 24 Dec: every boarding option")
     d.table(S.ONWARD_TRAINS, X.ONWARD_W)
+    d.small(S.TO_KAZIPET)
+    d.space(2)
     d.small(S.TELANGANA_HALTS)
-    d.space(4)
-    d.h2("If Hyderabad stations are full: board further up the line")
-    d.table(S.ONWARD_BACKUP, [0.2, 0.25, 0.55])
-    d.h2("How to check every halt and actually get a seat")
-    d.bullets(S.HALT_METHOD)
-    d.callout("Why I can't give you live 'available / WL' numbers here",
-              "IRCTC and the seat-availability pages need a login and captcha, and the availability sites were not reachable from this environment. "
-              "Everything above (train numbers, days, timings, fares) is researched; the availability check takes 10 minutes with the steps above. "
-              "Do it in the ConfirmTkt or ixigo Trains app, which also show WL-confirmation chances and alternate-station suggestions.")
+    d.space(3)
+    d.h2("How to check every station and halt and actually get 6 seats")
+    d.bullets(S.HALT_METHOD + [S.PNR_NOTE])
+    d.callout("Why there are no live 'available / WL' numbers here",
+              "IRCTC, ConfirmTkt, erail and Airbnb pages can't be opened from this environment (blocked), so train numbers, days, times and fares come "
+              "from search results across several timetable sites. The availability check takes ~10 minutes in the ConfirmTkt or ixigo app, which "
+              "also shows confirmation chances and alternate stations.", "info")
 
-    d.h1("Delhi → Hyderabad (home by 3 Jan)")
+    d.h1("Delhi → Kalka → Shimla toy train")
+    d.table(S.DELHI_KALKA, X.DK_W)
+    d.small(S.DELHI_KALKA_NOTE)
+    d.space(3)
+    d.table(S.TOY_TRAIN, [0.11, 0.19, 0.13, 0.13, 0.2, 0.24])
+    d.small(S.TOY_NOTE)
+    d.space(3)
+    d.callout("The Delhi gap on 25 Dec", S.HELPFUL_DELHI_DAY, "info")
+
+    d.h1("Back to Hyderabad by 3 Jan")
     d.table(S.RETURN_TRAINS, X.RETURN_W)
 
-    d.h1("Flights from Hyderabad")
+    d.h1("Flights (only where they help)")
     d.table(S.FLIGHTS, X.FLIGHT_W)
     d.small(S.FLIGHT_NOTE)
-    d.space(4)
-    d.table([
-        ["Mix that saves time", "Extra cost vs all-train", "Days gained in the hills"],
-        ["Train out + fly back (Delhi/IXC/SXR/DED → HYD on 2 Jan)", "+₹4–8k", "+1 (Kashmir: +1.5)"],
-        ["Fly out + train back", "+₹4–8k", "+1"],
-        ["Fly both ways", "+₹10–17k", "+2. Over budget for Plans 1, 2, 3 and 5"],
-    ], [0.5, 0.25, 0.25])
 
-    d.h1("Winter gear: full list, buy vs rent")
+    d.h1("Getting around as 6")
+    d.table(S.VEHICLES, [0.2, 0.14, 0.3, 0.14, 0.22])
+
+    d.h1("Airbnb: how to get best-rated and cheapest for 6")
+    d.bullets(S.AIRBNB_HOWTO)
+    d.small(S.AIRBNB_NOTE)
+
+    d.h1("International trips checked")
+    d.table(S.INTERNATIONAL, [0.15, 0.25, 0.25, 0.17, 0.18])
+    d.small("Visa notes (Nov 2026 reports): Nepal and Bhutan need no visa for Indians (passport or voter ID). Sri Lanka has a free ETA for Indians. "
+            "Malaysia is visa-free till 31 Dec 2026, so travel after that needs checking. Thailand's visa-free stay for Indians is being cut to 30 days. "
+            "Vietnam needs an e-visa.")
+    d.h2("Other North India options considered")
+    d.table(S.OTHER_NORTH, [0.3, 0.7])
+
+    d.h1("Winter gear: buy vs rent")
     d.p(S.GEAR_SUMMARY)
     d.table(S.GEAR_TABLE, [0.2, 0.1, 0.2, 0.3, 0.2])
     d.h2("Where to buy before you leave Hyderabad")
     d.bullets([
-        "<b>Decathlon</b> (several stores in Hyderabad, plus online): thermals (Wedze), fleece, Quechua padded jackets, MH100/MH500 shoes, gloves, socks.",
-        "Hyderabad's Koti / Begum Bazaar and Sunday markets: cheaper woollens, caps, socks (₹100–300).",
-        "Delhi: Sarojini Nagar / Janpath / Monastery Market (Majnu ka Tilla) for cheap jackets if you have a few hours on 25 Dec.",
-        "Online rentals that ship to you: Indiahikes rentals (padded jacket rated −10 °C ≈ ₹55–80/day), trek-operator rental shops (₹100/day jackets).",
+        "<b>Decathlon</b> (several Hyderabad stores, plus online): thermals, fleece, padded jackets, MH100/MH500 shoes, gloves, socks.",
+        "Koti / Begum Bazaar / Sunday markets: cheaper woollens, caps, socks (₹100–300).",
+        "Delhi on 25 Dec: Monastery Market (Majnu ka Tilla), Janpath and Sarojini Nagar for cheap jackets.",
     ])
-    d.h2("Layering for −10 °C (what to wear on a snow day)")
-    d.table([
-        ["Layer", "What", "Why"],
-        ["Base", "Thermal top + bottom (synthetic/merino)", "Keeps sweat off the skin"],
-        ["Mid", "Fleece / woollen sweater", "Traps heat"],
-        ["Outer", "Padded/down jacket + rented snow suit on snow days", "Wind and wet protection"],
-        ["Extremities", "Woollen cap + balaclava, inner + waterproof gloves, 2 pairs of socks, gumboots/trek shoes, UV sunglasses", "Hands, feet, ears and eyes go first"],
-    ], [0.15, 0.55, 0.3])
-
-    d.h1("Carry list &amp; safety")
     X.packing_and_safety(d)
-
-    d.h1("What's in each PDF")
-    d.bullets([
-        "Overview (this file): comparison, all trains and flights, every-halt method, gear.",
-        "Each plan PDF: how to get there and back for that plan, local transport with prices, a day-by-day itinerary with stay and spend per day, "
-        "main vs offbeat places, bike/scooty rentals with rates and rules, gear rental points on that route, an itemised budget, "
-        "what to book now, a Plan B for snow and traffic, and sources.",
-    ])
     d.sources([
-        "IRCTC 60-day ARP (from 1 Nov 2024) & 2026 Aadhaar-verified booking updates: Business Today, India TV, Upstox, Trainman blog, india.com, Patrika, DeshGujarat",
-        "Hyderabad–Delhi train data: Wikipedia (Telangana Exp, Secunderabad Rajdhani, Duronto, Dakshin Exp), ConfirmTkt, totaltraininfo, ixigo, Trainman, RailMitra, gettraininfo, travelkhana, etrain.info, indiantrain.in",
-        "22691/22692 Bengaluru Rajdhani at Secunderabad: ConfirmTkt, RailMitra, travelkhana",
-        "22705/22706 Humsafar: ixigo, RailMitra, NativePlanet, Goibibo, Adani One (running days conflict; verify)",
-        "Vande Bharat Sleeper Delhi–Secunderabad: not launched as of Hyderabad Mail (2 Nov 2026); Charlapalli–Nizamuddin specials 07023/07021: indiarailinfo, Curly Tales",
-        "Flights: MakeMyTrip, Goibibo, ixigo, Skyscanner, HappyFares, Air India / Air India Express route pages, IndiGo route pages, flightconnections (Nov 2026)",
-        "Gear rental rates: Indiahikes rentals, Himalayan Hikers, Himalayan Dream Treks, SharePal, travelcoffee.in, cliffhangersindia, Tripoto",
+        "IRCTC 60-day ARP & 2026 Aadhaar-verified booking: Business Today, India TV, Upstox, Trainman blog, india.com, Patrika",
+        "Kazipet/Warangal/Vijayawada timings (12621, 12625, 12615, 12721, 22691): ConfirmTkt, ixigo, Goibibo, Paytm, MakeMyTrip, indiarailinfo, RailMitra",
+        "Kalka Mail / Kalka Shatabdi / toy train: Cleartrip, RailMitra, indiantrain, totaltraininfo, ixigo, Bajaj Finserv, travelcoffee 2026, Shimla Tourism, exploreindia",
+        "17005/17006 & 12791/12792: ixigo, totaltraininfo, ConfirmTkt, RailMitra, Trainman; Jammu Mail 14033: ConfirmTkt, indiantrain",
+        "Vande Bharat Jammu–Srinagar: Kashmir Life, NewsX, Inshorts (2026); Kangra toy train restoration: Outlook Traveller, Curly Tales (June 2026)",
+        "Vehicle rates: Rajputana Cabs, Triveni Cabs (2026); Airbnb listings via airbnb.com/.co.in search results (Nov 2026)",
+        "International: Consulate General of India Phuentsholing (Bhutan SDF), HappyFares/Business Today (Nepal), Skyscanner/IndiGo/AirAsia/Trripah fares, "
+        "Esquire India, Skyscanner cheapest-countries guide",
+        "Spiti winter: discoverwithdheeraj, treksandtrails, Spiti Holiday Adventure; Kinnaur winter: vargiskhan, travelcoffee",
     ])
     d.build()
